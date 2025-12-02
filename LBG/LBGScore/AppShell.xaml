@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="LBGScore.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:LBGScore.Views"
+    Shell.FlyoutBehavior="Disabled"
+    Title="LBGScore">
+
+    <TabBar>
+
+        <!-- TAB Resultado del Partido (Pantalla principal) -->
+        <Tab Title="Partido" Icon="stadium.png">
+            <ShellContent ContentTemplate="{DataTemplate local:LiveMatchPage}" />
+        </Tab>
+
+        <Tab Title="Resultados" Icon="scoreboard.png">
+            <ShellContent ContentTemplate="{DataTemplate local:ResultadosPage}" />
+        </Tab>
+        <!-- TAB Tabla de Posiciones -->
+        <Tab Title="Posiciones" Icon="league.png">
+            <ShellContent ContentTemplate="{DataTemplate local:StandingsPage}" />
+        </Tab>
+
+        <!-- TAB Goleadores -->
+        <Tab Title="Goleadores" Icon="topscorer.png">
+            <ShellContent ContentTemplate="{DataTemplate local:GoleadoresPage}" />
+        </Tab>
+    </TabBar>
+</Shell>

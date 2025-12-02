@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="LBGScore.Views.ResultadosPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:LBGScore.ViewModels"
+    Title="Partidos">
+
+    <ContentPage.BindingContext>
+        <vm:ResultadosViewModel />
+    </ContentPage.BindingContext>
+
+    <CollectionView ItemsSource="{Binding Partidos}" Margin="10">
+
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Frame Padding="12" Margin="0,6" HasShadow="True" CornerRadius="12" BorderColor="#EEE">
+                    <VerticalStackLayout Spacing="8">
+
+                        <!-- fecha y hora -->
+                        <HorizontalStackLayout Spacing="8">
+                            <Label Text="{Binding Dia}" FontSize="12" TextColor="#666"/>
+                            <Label Text="{Binding Hora}" FontSize="12" TextColor="#666"/>
+                        </HorizontalStackLayout>
+
+                        <!-- Equipos + marcador -->
+                        <Grid ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="100"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Local -->
+                            <VerticalStackLayout Grid.Column="0" HorizontalOptions="Center">
+                                <Image Source="{Binding LogoL}" HeightRequest="48"/>
+                                <Label Text="{Binding Local}" FontSize="13" 
+                                       HorizontalTextAlignment="Center" />
+                            </VerticalStackLayout>
+
+                            <!-- Marcador -->
+                            <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
+                                <HorizontalStackLayout Spacing="6">
+                                    <Label Text="{Binding GL}" FontSize="26" FontAttributes="Bold"/>
+                                    <Label Text=":" FontSize="20"/>
+                                    <Label Text="{Binding GV}" FontSize="26" FontAttributes="Bold"/>
+                                </HorizontalStackLayout>
+
+                                <Label Text="{Binding EstadoTexto}"
+                                       FontSize="10"
+                                       TextColor="{Binding EstadoColorHex}"
+                                       HorizontalTextAlignment="Center"/>
+                            </VerticalStackLayout>
+
+                            <!-- Visitante -->
+                            <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center">
+                                <Image Source="{Binding LogoV}" HeightRequest="48"/>
+                                <Label Text="{Binding Visitante}" FontSize="13" 
+                                       HorizontalTextAlignment="Center"/>
+                            </VerticalStackLayout>
+
+                        </Grid>
+                        <!-- categoría / vocal -->
+                        <HorizontalStackLayout Spacing="12" HorizontalOptions="Center" Margin="0,4,0,0">
+
+                            <!-- CATEGORIA -->
+                            <HorizontalStackLayout Spacing="4">
+                                <Label Text="Categoría:" 
+                                       FontSize="11" 
+                                       TextColor="#3F51B5"
+                                       FontAttributes="Bold"/>
+
+                                <Label Text="{Binding Categoria}" 
+                                       FontSize="11" 
+                                       TextColor="#555"/>
+                            </HorizontalStackLayout>
+
+                            <!-- Separador -->
+                            <Label Text="•" FontSize="11" TextColor="#999"/>
+
+                            <!-- VOCAL -->
+                            <HorizontalStackLayout Spacing="4">
+                                <Label Text="Vocal:" 
+                                       FontSize="11" 
+                                       TextColor="#009688"
+                                       FontAttributes="Bold"/>
+
+                                <Label Text="{Binding Vocal}" 
+                                       FontSize="11" 
+                                       TextColor="#555"/>
+                            </HorizontalStackLayout>
+
+                        </HorizontalStackLayout>
+
+
+                    </VerticalStackLayout>
+                </Frame>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+
+    </CollectionView>
+</ContentPage>
