@@ -19,15 +19,39 @@ namespace LBGScore.ViewModels
     public class GoleadoresViewModel : INotifyPropertyChanged
     {
         private readonly ApiService _apiService;
+        public Command RefreshCommand { get; }
 
+        private bool _isRefreshing;
+        public bool IsRefreshing
+        {
+            get => _isRefreshing;
+            set
+            {
+                _isRefreshing = value;
+                OnPropertyChanged(nameof(IsRefreshing));
+            }
+        }
         public ObservableCollection<GoleadoresGroup> GoleadoresGrouped { get; set; } = new();
 
         public GoleadoresViewModel()
         {
             _apiService = new ApiService();
+            RefreshCommand = new Command(async () => await RefreshAsync());
             LoadData();
         }
-
+        public async Task RefreshAsync()
+        {
+            try
+            {
+                IsRefreshing = true;
+                LoadData();
+            }
+            finally
+            {
+                await Task.Delay(500);
+                IsRefreshing = false;
+            }
+        }
         private async void LoadData()
         {
             var all = await _apiService.GetGoleadoresAsync();

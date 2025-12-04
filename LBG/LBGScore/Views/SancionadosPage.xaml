@@ -1,0 +1,95 @@
+<ContentPage x:Class="LBGScore.Views.SancionadosPage"
+xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+xmlns:vm="clr-namespace:LBGScore.ViewModels"
+Title="Sancionados">
+    
+    <ContentPage.BindingContext>
+        <vm:SancionadosViewModel />
+    </ContentPage.BindingContext>
+
+    <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                 Command="{Binding RefreshCommand}">
+
+        <CollectionView ItemsSource="{Binding Sancionados}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+
+                    <Frame Margin="10"
+                           Padding="10"
+                           CornerRadius="15"
+                           HasShadow="True"
+                           BackgroundColor="#FFFFFF">
+
+                        <Grid ColumnDefinitions="100, *"
+                              RowDefinitions="Auto, Auto, Auto, Auto, Auto">
+
+                            <!-- FOTO -->
+                            <Image Grid.Column="0"
+                                   Grid.RowSpan="5"
+                                   Source="{Binding Foto}"
+                                   Aspect="AspectFill"
+                                   WidthRequest="90"
+                                   HeightRequest="90">
+                                <Image.Clip>
+                                    <EllipseGeometry Center="45,45"
+                                                     RadiusX="45"
+                                                     RadiusY="45"/>
+                                </Image.Clip>
+                            </Image>
+
+                            <!-- NOMBRE -->
+                            <Label Grid.Column="1"
+                                   Text="{Binding Nombre}"
+                                   FontAttributes="Bold"
+                                   FontSize="16"
+                                   TextColor="Black"
+                                   VerticalOptions="Center" />
+
+                            <!-- EQUIPO -->
+                            <Label Grid.Column="1"
+                                   Grid.Row="1"
+                                   Text="{Binding Equipo}"
+                                   FontSize="14"
+                                   TextColor="Gray" />
+
+                            <!-- ICONO DE CAMISETA + NÚMERO -->
+                            <Grid Grid.Column="1"
+                                  Grid.Row="2"
+                                  ColumnDefinitions="25, Auto">
+                                <Image Source="jersey.png"
+                                       HeightRequest="20"
+                                       WidthRequest="20"
+                                       VerticalOptions="Center"/>
+                                <Label Grid.Column="1"
+                                       Text="{Binding Numero}"
+                                       FontSize="14"
+                                       VerticalOptions="Center"
+                                       TextColor="Gray" />
+                            </Grid>
+
+                            <!-- SANCIÓN -->
+                            <Label Grid.Column="1"
+                                   Grid.Row="3"
+                                   Text="{Binding Sancion}"
+                                   FontAttributes="Bold"
+                                   FontSize="14"
+                                   TextColor="Red" />
+
+                            <!-- ARTÍCULOS -->
+                            <Label Grid.Column="1"
+                                   Grid.Row="4"
+                                   Text="{Binding Articulos}"
+                                   FontSize="13"
+                                   TextColor="Black" />
+
+                        </Grid>
+
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </RefreshView>
+
+</ContentPage>

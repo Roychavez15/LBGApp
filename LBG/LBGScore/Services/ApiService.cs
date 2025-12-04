@@ -47,7 +47,49 @@ namespace LBGScore.Services
                 PropertyNameCaseInsensitive = true
             }) ?? new List<Partido>();
         }
+        public async Task<List<Auspiciante>> GetAuspiciantesAsync()
+        {
+            try
+            {
+                using var client = new HttpClient();
 
+                var url = "http://181.39.104.93:5028/api/auspiciantes";
+                var response = await client.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                    return new List<Auspiciante>();
+
+                var json = await response.Content.ReadAsStringAsync();
+
+                var auspiciantes = JsonSerializer.Deserialize<List<Auspiciante>>(
+                    json,
+                    new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
+
+                return auspiciantes ?? new List<Auspiciante>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error obteniendo auspiciantes: {ex.Message}");
+                return new List<Auspiciante>();
+            }
+        }
+        public async Task<List<Sancionado>> GetSancionadosAsync()
+        {
+            var url = "http://181.39.104.93:5028/api/sancionados";
+            var response = await _httpClient.GetAsync(url);
+            if (!response.IsSuccessStatusCode)
+                return new List<Sancionado>();
+
+            var json = await response.Content.ReadAsStringAsync();
+            return JsonSerializer.Deserialize<List<Sancionado>>(json,
+                    new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
+        }
     }
 
 }

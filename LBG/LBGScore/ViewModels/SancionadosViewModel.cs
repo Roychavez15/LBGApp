@@ -1,16 +1,20 @@
-﻿namespace LBGScore.ViewModels
+﻿
+
+namespace LBGScore.ViewModels
 {
+
     using LBGScore.Models;
     using LBGScore.Services;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
-
-    public class ResultadosViewModel : INotifyPropertyChanged
+    public class SancionadosViewModel : INotifyPropertyChanged
     {
         private readonly ApiService _apiService;
 
-        public ObservableCollection<Partido> Partidos { get; set; } = new();
+        public ObservableCollection<Sancionado> Sancionados { get; set; } = new();
+
         public Command RefreshCommand { get; }
+
         private bool _isRefreshing;
         public bool IsRefreshing
         {
@@ -21,7 +25,8 @@
                 OnPropertyChanged(nameof(IsRefreshing));
             }
         }
-        public ResultadosViewModel()
+
+        public SancionadosViewModel()
         {
             _apiService = new ApiService();
             RefreshCommand = new Command(async () => await RefreshAsync());
@@ -42,29 +47,24 @@
         }
         private async void LoadData()
         {
-            try
-            {
-                var all = await _apiService.GetPartidosFechaAsync();
+            
+            var list = await _apiService.GetSancionadosAsync();
 
-                var ordenados = all
-                    .OrderBy(p => p.FechaHoraOrdenable)
-                    .ToList();
+            var filtrados = list
+                .Where(s => !string.IsNullOrWhiteSpace(s.Equipo))
+                .ToList();
 
-                Partidos.Clear();
-                foreach (var p in ordenados)
-                    Partidos.Add(p);
+            Sancionados.Clear();
 
-                OnPropertyChanged(nameof(Partidos));
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine("Error cargando partidos: " + ex);
-            }
+            foreach (var s in filtrados)
+                Sancionados.Add(s);
+
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string name) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        void OnPropertyChanged(string name)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 
 }

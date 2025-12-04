@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage
+<!--<ContentPage
     x:Class="LBGScore.Views.GoleadoresPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
@@ -9,12 +9,15 @@
     <ContentPage.BindingContext>
         <vm:GoleadoresViewModel />
     </ContentPage.BindingContext>
-
-    <CollectionView ItemsSource="{Binding GoleadoresGrouped}"
+    
+    <RefreshView IsRefreshing="{Binding IsRefreshing}"
+             Command="{Binding RefreshCommand}">
+        
+        <CollectionView ItemsSource="{Binding GoleadoresGrouped}"
                     IsGrouped="True"
                     Margin="10">
 
-        <!-- Encabezado de categoría -->
+        --><!-- Encabezado de categoría --><!--
         <CollectionView.GroupHeaderTemplate>
             <DataTemplate>
                 <VerticalStackLayout Padding="5">
@@ -28,21 +31,21 @@
                            FontAttributes="Bold"
                            TextColor="Black"/>
 
-                    <!-- Encabezado tabla -->
+                    --><!-- Encabezado tabla --><!--
                     <Grid ColumnSpacing="5" Margin="0,5,0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="40"/>
-                            <!-- Pos -->
+                            --><!-- Pos --><!--
                             <ColumnDefinition Width="50"/>
-                            <!-- Logo -->
+                            --><!-- Logo --><!--
                             <ColumnDefinition Width="40"/>
-                            <!-- Foto -->
+                            --><!-- Foto --><!--
                             <ColumnDefinition Width="*"/>
-                            <!-- Nombre -->
+                            --><!-- Nombre --><!--
                             <ColumnDefinition Width="50"/>
-                            <!-- Camiseta -->
+                            --><!-- Camiseta --><!--
                             <ColumnDefinition Width="50"/>
-                            <!-- Goles -->
+                            --><!-- Goles --><!--
                         </Grid.ColumnDefinitions>
 
                         <Label Grid.Column="0" Text="Pos" FontAttributes="Bold"/>
@@ -55,7 +58,7 @@
             </DataTemplate>
         </CollectionView.GroupHeaderTemplate>
 
-        <!-- FILA DEL GOLEADOR -->
+        --><!-- FILA DEL GOLEADOR --><!--
         <CollectionView.ItemTemplate>
             <DataTemplate>
 
@@ -69,20 +72,20 @@
                         <ColumnDefinition Width="50"/>
                     </Grid.ColumnDefinitions>
 
-                    <!-- POSICIÓN -->
+                    --><!-- POSICIÓN --><!--
                     <Label Grid.Column="0"
                            Text="{Binding Pos}"
                            HorizontalTextAlignment="Center"
                            VerticalTextAlignment="Center"/>
 
-                    <!-- LOGO EQUIPO -->
+                    --><!-- LOGO EQUIPO --><!--
                     <Image Grid.Column="1"
                            Source="{Binding Logo}"
                            HeightRequest="24"
                            WidthRequest="24"
                            Aspect="AspectFit"/>
 
-                    <!-- FOTO JUGADOR (REDONDEADA) -->
+                    --><!-- FOTO JUGADOR (REDONDEADA) --><!--
                     <Frame Grid.Column="2"
                            Padding="0"
                            HeightRequest="32"
@@ -93,13 +96,13 @@
                                Aspect="AspectFill"/>
                     </Frame>
 
-                    <!-- NOMBRE -->
+                    --><!-- NOMBRE --><!--
                     <Label Grid.Column="3"
                            Text="{Binding Nombre}"
                            FontAttributes="Bold"
                            VerticalTextAlignment="Center"/>
 
-                    <!-- ICONO CAMISETA + NÚMERO -->
+                    --><!-- ICONO CAMISETA + NÚMERO --><!--
                     <Grid Grid.Column="4">
                         <Image Source="tshirt.png"
                                HeightRequest="28"
@@ -113,7 +116,7 @@
                                VerticalTextAlignment="Center"/>
                     </Grid>
 
-                    <!-- GOLES -->
+                    --><!-- GOLES --><!--
                     <Label Grid.Column="5"
                            Text="{Binding Goles}"
                            FontSize="18"
@@ -127,5 +130,163 @@
         </CollectionView.ItemTemplate>
 
     </CollectionView>
+    </RefreshView>
+</ContentPage>-->
 
+<ContentPage
+    x:Class="LBGScore.Views.GoleadoresPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:LBGScore.ViewModels"
+    Title="TOP 5 Goleadores">
+
+    <ContentPage.BindingContext>
+        <vm:GoleadoresViewModel />
+    </ContentPage.BindingContext>
+
+    <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                 Command="{Binding RefreshCommand}">
+
+        <!-- Cada item de GoleadoresGrouped es un grupo (GoleadoresGroup) -->
+        <CollectionView ItemsSource="{Binding GoleadoresGrouped}"
+                        Margin="10"
+                        SelectionMode="None">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+
+                    <!-- FRAME por categoría -->
+                    <Frame Margin="10"
+                           Padding="0"
+                           CornerRadius="12"
+                           HasShadow="True"
+                           BorderColor="#DDD"
+                           BackgroundColor="White">
+
+                        <VerticalStackLayout Padding="8" Spacing="6">
+
+                            <!-- Título y subtítulo -->
+                            <Label Text="Goleadores"
+                                   FontSize="14"
+                                   TextColor="Gray"/>
+
+                            <Label Text="{Binding Key}"
+                                   FontSize="22"
+                                   FontAttributes="Bold"
+                                   TextColor="Black"/>
+
+                            <!-- Encabezado tabla -->
+                            <Grid ColumnSpacing="5" Margin="0,5,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40"/>
+                                    <!-- Pos -->
+                                    <ColumnDefinition Width="50"/>
+                                    <!-- Logo -->
+                                    <ColumnDefinition Width="40"/>
+                                    <!-- Foto -->
+                                    <ColumnDefinition Width="*"/>
+                                    <!-- Nombre -->
+                                    <ColumnDefinition Width="50"/>
+                                    <!-- Camiseta -->
+                                    <ColumnDefinition Width="50"/>
+                                    <!-- Goles -->
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Column="0" Text="Pos" FontAttributes="Bold"/>
+                                <Label Grid.Column="3" Text="Nombre" FontAttributes="Bold"/>
+                                <Label Grid.Column="5" Text="Goles" FontAttributes="Bold"
+                                       HorizontalTextAlignment="Center"/>
+                            </Grid>
+
+                            <!-- Inner CollectionView: items del grupo -->
+                            <CollectionView ItemsSource="{Binding .}"
+                                            Margin="0"
+                                            SelectionMode="None"
+                                            ItemsLayout="VerticalList"
+                                            BackgroundColor="Transparent">
+
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+
+                                        <Grid Padding="6" ColumnSpacing="5">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="40"/>
+                                                <ColumnDefinition Width="50"/>
+                                                <ColumnDefinition Width="40"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="50"/>
+                                                <ColumnDefinition Width="50"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- POSICIÓN -->
+                                            <Label Grid.Column="0"
+                                                   Text="{Binding Pos}"
+                                                   HorizontalTextAlignment="Center"
+                                                   VerticalTextAlignment="Center"/>
+
+                                            <!-- LOGO EQUIPO -->
+                                            <Image Grid.Column="1"
+                                                   Source="{Binding Logo}"
+                                                   HeightRequest="24"
+                                                   WidthRequest="24"
+                                                   Aspect="AspectFit"/>
+
+                                            <!-- FOTO JUGADOR (REDONDEADA) -->
+                                            <Frame Grid.Column="2"
+                                                   Padding="0"
+                                                   HeightRequest="32"
+                                                   WidthRequest="32"
+                                                   CornerRadius="16"
+                                                   IsClippedToBounds="True">
+                                                <Image Source="{Binding Foto}"
+                                                       Aspect="AspectFill"/>
+                                            </Frame>
+
+                                            <!-- NOMBRE -->
+                                            <Label Grid.Column="3"
+                                                   Text="{Binding Nombre}"
+                                                   FontAttributes="Bold"
+                                                   VerticalTextAlignment="Center"/>
+
+                                            <!-- ICONO CAMISETA + NÚMERO -->
+                                            <Grid Grid.Column="4" HorizontalOptions="Center" VerticalOptions="Center">
+                                                <Image Source="tshirt.png"
+                                                       HeightRequest="28"
+                                                       WidthRequest="28"
+                                                       Aspect="AspectFit" />
+
+                                                <Label Text="{Binding Numero}"
+                                                       FontSize="12"
+                                                       FontAttributes="Bold"
+                                                       HorizontalTextAlignment="Center"
+                                                       VerticalTextAlignment="Center"
+                                                       HorizontalOptions="Center"
+                                                       VerticalOptions="Center"/>
+                                            </Grid>
+
+                                            <!-- GOLES -->
+                                            <Label Grid.Column="5"
+                                                   Text="{Binding Goles}"
+                                                   FontSize="18"
+                                                   FontAttributes="Bold"
+                                                   HorizontalTextAlignment="Center"
+                                                   VerticalTextAlignment="Center"
+                                                   TextColor="#333"/>
+                                        </Grid>
+
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+
+                            </CollectionView>
+
+                        </VerticalStackLayout>
+
+                    </Frame>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+    </RefreshView>
 </ContentPage>

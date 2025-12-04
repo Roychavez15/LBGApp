@@ -9,12 +9,14 @@
     <ContentPage.BindingContext>
         <vm:ResultadosViewModel />
     </ContentPage.BindingContext>
-
+    <RefreshView IsRefreshing="{Binding IsRefreshing}"
+             Command="{Binding RefreshCommand}">
+        
     <CollectionView ItemsSource="{Binding Partidos}" Margin="10">
 
         <CollectionView.ItemTemplate>
             <DataTemplate>
-                <Frame Padding="12" Margin="0,6" HasShadow="True" CornerRadius="12" BorderColor="#EEE">
+                <Frame Padding="12" Margin="10" HasShadow="True" CornerRadius="12" BorderColor="#EEE">
                     <VerticalStackLayout Spacing="8">
 
                         <!-- fecha y hora -->
@@ -38,7 +40,7 @@
                                        HorizontalTextAlignment="Center" />
                             </VerticalStackLayout>
 
-                            <!-- Marcador -->
+                            <!-- Marcador --><!--
                             <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
                                 <HorizontalStackLayout Spacing="6">
                                     <Label Text="{Binding GL}" FontSize="26" FontAttributes="Bold"/>
@@ -50,9 +52,59 @@
                                        FontSize="10"
                                        TextColor="{Binding EstadoColorHex}"
                                        HorizontalTextAlignment="Center"/>
-                            </VerticalStackLayout>
+                            </VerticalStackLayout>-->
+                                <!-- Marcador -->
+                                <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
 
-                            <!-- Visitante -->
+                                    <!-- Marcador normal -->
+                                    <HorizontalStackLayout x:Name="ScorePanel" Spacing="6">
+                                        <Label Text="{Binding GL}" FontSize="26" FontAttributes="Bold"/>
+                                        <Label Text=":" FontSize="20"/>
+                                        <Label Text="{Binding GV}" FontSize="26" FontAttributes="Bold"/>
+                                    </HorizontalStackLayout>
+
+                                    <!-- Estado texto -->
+                                    <Label x:Name="EstadoLabel"
+                                           Text="{Binding EstadoTexto}"
+                                           FontSize="10"
+                                           TextColor="{Binding EstadoColorHex}"
+                                           HorizontalTextAlignment="Center"/>
+
+                                                                    <!-- VS cuando el partido está pendiente -->
+                                                                    <Label x:Name="VsLabel"
+                                           Text="VS"
+                                           FontSize="26"
+                                           FontAttributes="Bold"
+                                           HorizontalTextAlignment="Center"
+                                           IsVisible="False"
+                                           TextColor="#444"/>
+
+                                    <!-- TRIGGERS -->
+                                    <VerticalStackLayout.Triggers>
+
+                                        <!-- Cuando Estado = 0 → mostrar VS -->
+                                        <DataTrigger TargetType="VerticalStackLayout"
+                                             Binding="{Binding Estado}"
+                                             Value="0">
+                                            <Setter TargetName="ScorePanel" Property="IsVisible" Value="False"/>
+                                            <Setter TargetName="EstadoLabel" Property="IsVisible" Value="False"/>
+                                            <Setter TargetName="VsLabel" Property="IsVisible" Value="True"/>
+                                        </DataTrigger>
+
+                                        <!-- Cuando Estado ≠ 0 → mostrar marcador -->
+                                        <DataTrigger TargetType="VerticalStackLayout"
+                                             Binding="{Binding Estado}"
+                                             Value="1">
+                                            <Setter TargetName="ScorePanel" Property="IsVisible" Value="True"/>
+                                            <Setter TargetName="EstadoLabel" Property="IsVisible" Value="True"/>
+                                            <Setter TargetName="VsLabel" Property="IsVisible" Value="False"/>
+                                        </DataTrigger>
+
+                                    </VerticalStackLayout.Triggers>
+
+                                </VerticalStackLayout>
+
+                                <!-- Visitante -->
                             <VerticalStackLayout Grid.Column="2" HorizontalOptions="Center">
                                 <Image Source="{Binding LogoV}" HeightRequest="48"/>
                                 <Label Text="{Binding Visitante}" FontSize="13" 
@@ -99,4 +151,5 @@
         </CollectionView.ItemTemplate>
 
     </CollectionView>
+    </RefreshView>
 </ContentPage>

@@ -26,5 +26,8 @@
         <Tab Title="Goleadores" Icon="topscorer.png">
             <ShellContent ContentTemplate="{DataTemplate local:GoleadoresPage}" />
         </Tab>
+        <Tab Title="Sancionados" Icon="redcard.png">
+            <ShellContent ContentTemplate="{DataTemplate local:SancionadosPage}" />
+        </Tab>
     </TabBar>
 </Shell>

@@ -12,6 +12,19 @@ namespace LBGScore.ViewModels
 
         private List<Standing> _allStandings;
 
+        public Command RefreshCommand { get; }
+
+        private bool _isRefreshing;
+        public bool IsRefreshing
+        {
+            get => _isRefreshing;
+            set
+            {
+                _isRefreshing = value;
+                OnPropertyChanged(nameof(IsRefreshing));
+            }
+        }
+
         // Lista agrupada por categoría
         public ObservableCollection<Grouping<string, Standing>> StandingsGrouped { get; set; }
             = new ObservableCollection<Grouping<string, Standing>>();
@@ -19,7 +32,21 @@ namespace LBGScore.ViewModels
         public StandingsViewModel()
         {
             _apiService = new ApiService();
+            RefreshCommand = new Command(async () => await RefreshAsync());
             LoadData();
+        }
+        public async Task RefreshAsync()
+        {
+            try
+            {
+                IsRefreshing = true;
+                LoadData();    
+            }
+            finally
+            {
+                await Task.Delay(500);
+                IsRefreshing = false;
+            }
         }
 
         private async void LoadData()

@@ -1,4 +1,129 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!--<ContentPage
+    x:Class="LBGScore.Views.StandingsPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:LBGScore.ViewModels"
+    Title="Tabla de Posiciones">
+
+    <ContentPage.BindingContext>
+        <vm:StandingsViewModel />
+    </ContentPage.BindingContext>
+    <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                 Command="{Binding RefreshCommand}">
+        <CollectionView
+        ItemsSource="{Binding StandingsGrouped}"
+        IsGrouped="True"
+        Margin="10">
+
+        --><!-- Encabezado de categoría --><!--
+        <CollectionView.GroupHeaderTemplate>
+            <DataTemplate>
+                <VerticalStackLayout>
+
+                    --><!-- Título de la categoría --><!--
+                    <Grid BackgroundColor="#EEEEEE" Padding="8">
+                        <Label Text="{Binding Key}" 
+                               FontSize="20"
+                               FontAttributes="Bold"
+                               TextColor="Black"/>
+                    </Grid>
+
+                    --><!-- Encabezados de tabla --><!--
+                    <Grid Padding="5" ColumnSpacing="8" BackgroundColor="#DDDDDD">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="40"/>
+                            --><!-- POS --><!--
+                            <ColumnDefinition Width="40"/>
+                            --><!-- Logo --><!--
+                            <ColumnDefinition Width="*"/>
+                            --><!-- Equipo --><!--
+                            <ColumnDefinition Width="45"/>
+                            --><!-- PJ --><!--
+                            <ColumnDefinition Width="45"/>
+                            --><!-- PTS --><!--
+                            <ColumnDefinition Width="45"/>
+                            --><!-- GD --><!--
+                        </Grid.ColumnDefinitions>
+
+                        <Label Grid.Column="0" Text="POS" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                        <Label Grid.Column="1" Text="" />
+                        --><!-- Logo header vacío --><!--
+                        <Label Grid.Column="2" Text="Equipo" FontAttributes="Bold"/>
+                        <Label Grid.Column="3" Text="PJ" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                        <Label Grid.Column="4" Text="PTS" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                        <Label Grid.Column="5" Text="GD" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                    </Grid>
+
+                </VerticalStackLayout>
+            </DataTemplate>
+        </CollectionView.GroupHeaderTemplate>
+
+        --><!-- Fila del equipo --><!--
+        <CollectionView.ItemTemplate>
+            <DataTemplate>
+                <Grid Padding="5" ColumnSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="40"/>
+                        --><!-- POS --><!--
+                        <ColumnDefinition Width="40"/>
+                        --><!-- Logo --><!--
+                        <ColumnDefinition Width="*"/>
+                        --><!-- Equipo --><!--
+                        <ColumnDefinition Width="45"/>
+                        --><!-- PJ --><!--
+                        <ColumnDefinition Width="45"/>
+                        --><!-- PTS --><!--
+                        <ColumnDefinition Width="45"/>
+                        --><!-- GD --><!--
+                    </Grid.ColumnDefinitions>
+
+                    --><!-- POS --><!--
+                    <Label Grid.Column="0"
+                           Text="{Binding Posicion}"
+                           HorizontalTextAlignment="Center"
+                           VerticalOptions="Center"
+                           FontAttributes="Bold"/>
+
+                    --><!-- Logo --><!--
+                    <Image Grid.Column="1"
+                           Source="{Binding Logo}"
+                           HeightRequest="36"
+                           WidthRequest="36"
+                           Aspect="AspectFit"
+                           Margin="2"/>
+
+                    --><!-- Equipo --><!--
+                    <Label Grid.Column="2"
+                           Text="{Binding Equipo}"
+                           FontSize="15"
+                           VerticalOptions="Center"/>
+
+                    --><!-- PJ --><!--
+                    <Label Grid.Column="3"
+                           Text="{Binding Pj}"
+                           HorizontalTextAlignment="Center"
+                           VerticalOptions="Center"/>
+
+                    --><!-- Puntos --><!--
+                    <Label Grid.Column="4"
+                           Text="{Binding Total}"
+                           HorizontalTextAlignment="Center"
+                           FontAttributes="Bold"
+                           VerticalOptions="Center"/>
+
+                    --><!-- GD --><!--
+                    <Label Grid.Column="5"
+                           Text="{Binding Gd}"
+                           HorizontalTextAlignment="Center"
+                           VerticalOptions="Center"/>
+                </Grid>
+            </DataTemplate>
+        </CollectionView.ItemTemplate>
+
+    </CollectionView>
+    </RefreshView>
+</ContentPage>-->
 <ContentPage
     x:Class="LBGScore.Views.StandingsPage"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
@@ -10,115 +135,130 @@
         <vm:StandingsViewModel />
     </ContentPage.BindingContext>
 
-    <CollectionView
-        ItemsSource="{Binding StandingsGrouped}"
-        IsGrouped="True"
-        Margin="10">
+    <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                 Command="{Binding RefreshCommand}">
 
-        <!-- Encabezado de categoría -->
-        <CollectionView.GroupHeaderTemplate>
-            <DataTemplate>
-                <VerticalStackLayout>
+        <!--
+            NOTA: aquí NO usamos IsGrouped="True".
+            StandingsGrouped es una colección de grupos (cada grupo es ObservableCollection<Standing> con Key).
+            Cada item (grupo) se renderiza como un Frame que contiene:
+             - encabezado de categoría (Key)
+             - encabezados de tabla
+             - inner CollectionView (items del grupo)
+        -->
+        <CollectionView
+            ItemsSource="{Binding StandingsGrouped}"
+            Margin="10"
+            SelectionMode="None">
 
-                    <!-- Título de la categoría -->
-                    <Grid BackgroundColor="#EEEEEE" Padding="8">
-                        <Label Text="{Binding Key}" 
-                               FontSize="20"
-                               FontAttributes="Bold"
-                               TextColor="Black"/>
-                    </Grid>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
 
-                    <!-- Encabezados de tabla -->
-                    <Grid Padding="5" ColumnSpacing="8" BackgroundColor="#DDDDDD">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="40"/>
-                            <!-- POS -->
-                            <ColumnDefinition Width="40"/>
-                            <!-- Logo -->
-                            <ColumnDefinition Width="*"/>
-                            <!-- Equipo -->
-                            <ColumnDefinition Width="45"/>
-                            <!-- PJ -->
-                            <ColumnDefinition Width="45"/>
-                            <!-- PTS -->
-                            <ColumnDefinition Width="45"/>
-                            <!-- GD -->
-                        </Grid.ColumnDefinitions>
+                    <!-- Cada grupo completo dentro de un Frame -->
+                    <Frame Margin="10"
+                           Padding="0"
+                           CornerRadius="12"
+                           HasShadow="True"
+                           BorderColor="#DDD"
+                           BackgroundColor="White">
 
-                        <Label Grid.Column="0" Text="POS" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
-                        <Label Grid.Column="1" Text="" />
-                        <!-- Logo header vacío -->
-                        <Label Grid.Column="2" Text="Equipo" FontAttributes="Bold"/>
-                        <Label Grid.Column="3" Text="PJ" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
-                        <Label Grid.Column="4" Text="PTS" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
-                        <Label Grid.Column="5" Text="GD" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
-                    </Grid>
+                        <VerticalStackLayout>
 
-                </VerticalStackLayout>
-            </DataTemplate>
-        </CollectionView.GroupHeaderTemplate>
+                            <!-- Título de la categoría (Key) -->
+                            <Grid BackgroundColor="#F6F6F6" Padding="10">
+                                <Label Text="{Binding Key}" 
+                                       FontSize="20"
+                                       FontAttributes="Bold"
+                                       TextColor="Black"/>
+                            </Grid>
 
-        <!-- Fila del equipo -->
-        <CollectionView.ItemTemplate>
-            <DataTemplate>
-                <Grid Padding="5" ColumnSpacing="8">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="40"/>
-                        <!-- POS -->
-                        <ColumnDefinition Width="40"/>
-                        <!-- Logo -->
-                        <ColumnDefinition Width="*"/>
-                        <!-- Equipo -->
-                        <ColumnDefinition Width="45"/>
-                        <!-- PJ -->
-                        <ColumnDefinition Width="45"/>
-                        <!-- PTS -->
-                        <ColumnDefinition Width="45"/>
-                        <!-- GD -->
-                    </Grid.ColumnDefinitions>
+                            <!-- Encabezados de la tabla -->
+                            <Grid Padding="8" ColumnSpacing="8" BackgroundColor="#FAFAFA">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="30"/>
+                                    <ColumnDefinition Width="30"/>
+                                </Grid.ColumnDefinitions>
 
-                    <!-- POS -->
-                    <Label Grid.Column="0"
-                           Text="{Binding Posicion}"
-                           HorizontalTextAlignment="Center"
-                           VerticalOptions="Center"
-                           FontAttributes="Bold"/>
+                                <Label Grid.Column="0" Text="POS" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                                <Label Grid.Column="1" Text="" />
+                                <Label Grid.Column="2" Text="Equipo" FontAttributes="Bold"/>
+                                <Label Grid.Column="3" Text="PJ" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                                <Label Grid.Column="4" Text="PTS" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                                <Label Grid.Column="5" Text="GD" FontAttributes="Bold" HorizontalTextAlignment="Center"/>
+                            </Grid>
 
-                    <!-- Logo -->
-                    <Image Grid.Column="1"
-                           Source="{Binding Logo}"
-                           HeightRequest="36"
-                           WidthRequest="36"
-                           Aspect="AspectFit"
-                           Margin="2"/>
+                            <!-- Lista de items del grupo -->
+                            <!-- Binding del ItemsSource apunta al propio grupo: el contexto aquí es el grupo (una ObservableCollection<Standing>) -->
+                            <CollectionView ItemsSource="{Binding .}"
+                                            Margin="0"
+                                            SelectionMode="None"
+                                            ItemsLayout="VerticalList"
+                                            BackgroundColor="Transparent">
 
-                    <!-- Equipo -->
-                    <Label Grid.Column="2"
-                           Text="{Binding Equipo}"
-                           FontSize="15"
-                           VerticalOptions="Center"/>
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <!-- Reutilizo exactamente tu Grid de fila -->
+                                        <Grid Padding="8" ColumnSpacing="8">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="30"/>
+                                                <ColumnDefinition Width="40"/>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="30"/>
+                                                <ColumnDefinition Width="30"/>
+                                                <ColumnDefinition Width="30"/>
+                                            </Grid.ColumnDefinitions>
 
-                    <!-- PJ -->
-                    <Label Grid.Column="3"
-                           Text="{Binding Pj}"
-                           HorizontalTextAlignment="Center"
-                           VerticalOptions="Center"/>
+                                            <Label Grid.Column="0"
+                                                   Text="{Binding Posicion}"
+                                                   HorizontalTextAlignment="Center"
+                                                   VerticalOptions="Center"
+                                                   FontAttributes="Bold"/>
 
-                    <!-- Puntos -->
-                    <Label Grid.Column="4"
-                           Text="{Binding Total}"
-                           HorizontalTextAlignment="Center"
-                           FontAttributes="Bold"
-                           VerticalOptions="Center"/>
+                                            <Image Grid.Column="1"
+                                                   Source="{Binding Logo}"
+                                                   HeightRequest="36"
+                                                   WidthRequest="36"
+                                                   Aspect="AspectFit"
+                                                   Margin="2"/>
 
-                    <!-- GD -->
-                    <Label Grid.Column="5"
-                           Text="{Binding Gd}"
-                           HorizontalTextAlignment="Center"
-                           VerticalOptions="Center"/>
-                </Grid>
-            </DataTemplate>
-        </CollectionView.ItemTemplate>
+                                            <Label Grid.Column="2"
+                                                   Text="{Binding Equipo}"
+                                                   FontSize="14"
+                                                   VerticalOptions="Center"/>
 
-    </CollectionView>
+                                            <Label Grid.Column="3"
+                                                   Text="{Binding Pj}"
+                                                   HorizontalTextAlignment="Center"
+                                                   VerticalOptions="Center"/>
+
+                                            <Label Grid.Column="4"
+                                                   Text="{Binding Total}"
+                                                   HorizontalTextAlignment="Center"
+                                                   FontAttributes="Bold"
+                                                   VerticalOptions="Center"/>
+
+                                            <Label Grid.Column="5"
+                                                   Text="{Binding Gd}"
+                                                   HorizontalTextAlignment="Center"
+                                                   VerticalOptions="Center"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+
+                            </CollectionView>
+
+                        </VerticalStackLayout>
+
+                    </Frame>
+
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+
+    </RefreshView>
 </ContentPage>
