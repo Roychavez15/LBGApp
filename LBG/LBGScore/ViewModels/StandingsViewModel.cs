@@ -58,12 +58,13 @@ namespace LBGScore.ViewModels
             }
 
             var grouped = _allStandings
-                .GroupBy(x => x.Categoria)                // Agrupa por categoría
-                .OrderBy(g => g.Key)                      // Ordena categoría alfabéticamente
+                .GroupBy(x => new { x.Categoria, x.Grupo }) // 🔥 Agrupa por categoría y grupo
+                .OrderBy(g => g.Key.Categoria)
+                .ThenBy(g => g.Key.Grupo)
                 .Select(g =>
                     new Grouping<string, Standing>(
-                        g.Key,
-                        g.OrderBy(t => t.Posicion)         // Ordena por posición dentro del grupo
+                        $"{g.Key.Categoria} - Grupo {g.Key.Grupo}",   // 🔥 título del bloque
+                        g.OrderBy(t => t.Posicion)                   // orden por posición
                     ))
                 .ToList();
 

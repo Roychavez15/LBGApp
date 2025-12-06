@@ -199,7 +199,7 @@ namespace LBGScore.ViewModels
         {
             var partidos = await _apiService.GetPartidosFechaAsync();
 
-            var partidoActivo = partidos.FirstOrDefault(p => p.Estado == "1");
+            var partidoActivo = partidos.FirstOrDefault(p => p.Estado == "1" || p.Estado == "D");
 
             Match = partidoActivo != null ? ConvertToLiveMatch(partidoActivo) : null;
             HasMatch = Match != null;

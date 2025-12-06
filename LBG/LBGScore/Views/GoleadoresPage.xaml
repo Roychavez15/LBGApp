@@ -178,17 +178,17 @@
                             <!-- Encabezado tabla -->
                             <Grid ColumnSpacing="5" Margin="0,5,0,0">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="30"/>
                                     <!-- Pos -->
-                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="40"/>
                                     <!-- Logo -->
                                     <ColumnDefinition Width="40"/>
                                     <!-- Foto -->
                                     <ColumnDefinition Width="*"/>
                                     <!-- Nombre -->
-                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="40"/>
                                     <!-- Camiseta -->
-                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="40"/>
                                     <!-- Goles -->
                                 </Grid.ColumnDefinitions>
 
@@ -210,12 +210,12 @@
 
                                         <Grid Padding="6" ColumnSpacing="5">
                                             <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="30"/>
                                                 <ColumnDefinition Width="40"/>
-                                                <ColumnDefinition Width="50"/>
                                                 <ColumnDefinition Width="40"/>
                                                 <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="50"/>
-                                                <ColumnDefinition Width="50"/>
+                                                <ColumnDefinition Width="40"/>
+                                                <ColumnDefinition Width="40"/>
                                             </Grid.ColumnDefinitions>
 
                                             <!-- POSICIÓN -->
